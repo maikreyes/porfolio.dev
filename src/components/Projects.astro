@@ -5,6 +5,7 @@ import Tailwind from "./icons/Tailwind.astro"
 import Link from "./icons/Link.astro"
 import LinkButton from "./LinkButton.astro"
 import Unity from "./icons/Unity.astro"
+import GodotEngine from "./icons/GodotEngine.astro"
 
 const TAGS = {
   NEXT: {
@@ -21,6 +22,11 @@ const TAGS = {
     name: "Unity",
     class: "bg-white text-black",
     icon: Unity,
+  },
+  GODOT:{
+    name:"Godot Engine",
+    class: "bg-white text-blue-500",
+    icon: GodotEngine
   }
 }
 const PROJECTS = [
@@ -28,11 +34,17 @@ const PROJECTS = [
     title: "Blood Forge",
     description:
       "BloodForge es un juego de acción multijugador local en el que los jugadores luchan en intensas batallas para forjar su destino.",
-    link: "#",
     github: "https://github.com/Archives-Videogames-Studio/BloodForge",
-    image: "/projects/svgl.webp",
+    image: "/projects/Unity-Technologies.webp",
     tags: [TAGS.UNITY],
   },
+  {
+    title: "Anomalia: A Cultural Defense",
+    description: "Anomalia, es el proyecto de grado de mi carrera, un proyecto creado como herramienta de preservación cultural para el pueblo de bugalagrande",
+    link: "https://archivesstudio.itch.io/anomalia-a-culture-defense?secret=rbph1Cgbx5dvkkObntxHVarAE",
+    image: "/projects/ItchioBanner.webp",
+    tags: [TAGS.GODOT]
+  }
   
 ]
 ---
