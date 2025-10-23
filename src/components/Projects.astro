@@ -8,6 +8,7 @@ import Unity from "./icons/Unity.astro"
 import GodotEngine from "./icons/GodotEngine.astro"
 import Build from "./icons/build_icon.astro"
 import Cancel from "./icons/cancel_icon.astro"
+import Finish from "./icons/finishicon.astro"
 
 const TAGS = {
   NEXT: {
@@ -39,9 +40,28 @@ const TAGS = {
     name : "Cancelado",
     class : "bg-red-400",
     icon : Cancel
+  },
+  FINISH : {
+    name : "Finalizado",
+    class : "bg-green-500", 
+    icon : Finish
   }
 }
 const PROJECTS = [
+  {
+    title: "City Builders",
+    description: "City Builders, es el proyecto de grado de mi carrera, un proyecto creado como  prototipo de herramienta enfocada a la preservación cultural para el pueblo de Bugalagrande, Valle del Cauca",
+    link: "https://archivesstudio.itch.io/city-builders",
+    image: "/projects/CityBuilders.webp",
+    tags: [TAGS.UNITY, TAGS.FINISH]
+  },
+  {
+    title: "AstroGas",
+    description: "AstroGas es un juego creado por Archives Games Studio para la Cali GameJam #2, fui el diseñador y programador principal durante toda la semana de la competencia.",
+    link: "https://archivesstudio.itch.io/astrogas",
+    image:  "/projects/Astrogas.webp",
+    tags: [TAGS.UNITY, TAGS.FINISH]
+  },
   {
     title: "Blood Forge",
     description:
@@ -50,21 +70,7 @@ const PROJECTS = [
     image: "/projects/Unity-Technologies.webp",
     tags: [TAGS.UNITY, TAGS.CANCEL] ,
   },
-  {
-    title: "Anomalia: A Cultural Defense",
-    description: "Anomalia, es el proyecto de grado de mi carrera, un proyecto creado como herramienta de preservación cultural para el pueblo de bugalagrande",
-    link: "https://archivesstudio.itch.io/anomalia-a-culture-defense?secret=rbph1Cgbx5dvkkObntxHVarAE",
-    image: "/projects/ItchioBanner.webp",
-    tags: [TAGS.GODOT, TAGS.DEVELOP]
-  },
-  {
-    title: "AstroGas",
-    description: "AstroGas es un juego creado por Archives Games Studio para la Cali GameJam #2, fui el diseñador y programador principal durante toda la semana de la competencia.",
-    link: "https://archivesstudio.itch.io/astrogas",
-    image:  "/projects/Astrogas.webp",
-    tags: [TAGS.UNITY, TAGS.DEVELOP]
-  }
-  
+
 ]
 ---
 
