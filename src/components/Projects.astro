@@ -9,27 +9,18 @@ import GodotEngine from "./icons/GodotEngine.astro"
 import Build from "./icons/build_icon.astro"
 import Cancel from "./icons/cancel_icon.astro"
 import Finish from "./icons/finishicon.astro"
+import GO from "./icons/Go.astro"
 
-const TAGS = {
-  NEXT: {
-    name: "Next.js",
-    class: "bg-black text-white",
-    icon: NextJS,
-  },
-  TAILWIND: {
-    name: "Tailwind CSS",
-    class: "bg-[#003159] text-white",
-    icon: Tailwind,
-  },
+export const TAGS = {
   UNITY: {
     name: "Unity",
     class: "bg-white text-black",
     icon: Unity,
   },
-  GODOT:{
-    name:"Godot Engine",
-    class: "bg-white text-blue-500",
-    icon: GodotEngine
+    GOLANG : {
+    name: "GO",
+    class : "bg-white text-blue-500",
+    icon : GO
   },
   DEVELOP:{
     name : "Desarrollo",
@@ -45,8 +36,16 @@ const TAGS = {
     name : "Finalizado",
     class : "bg-green-500", 
     icon : Finish
-  }
+  },
+
 }
+
+const TAG_ENTRIES = Object.entries(TAGS)
+const tagKeyByObject = new Map(TAG_ENTRIES.map(([key, tag]) => [tag, key]))
+
+const ALL_FILTER = "ALL"
+
+
 const PROJECTS = [
   {
     title: "City Builders",
@@ -63,21 +62,61 @@ const PROJECTS = [
     tags: [TAGS.UNITY, TAGS.FINISH]
   },
   {
-    title: "Blood Forge",
+    title: "Cholao",
     description:
-      "BloodForge es un juego de acción multijugador local en el que los jugadores luchan en intensas batallas para forjar su destino.",
-    github: "https://github.com/Archives-Videogames-Studio/BloodForge",
-    image: "/projects/Unity-Technologies.webp",
-    tags: [TAGS.UNITY, TAGS.CANCEL] ,
+      "Cholao es un juego desarrollado por Archives Videogames Studio para la tercera edición de la Cali Game Jam, quedando en el sexto puesto ganando en la categoria 'Mejor Uso Del Tema'",
+    link: "https://archivesstudio.itch.io/cholao",
+    image: "/projects/Cholao.webp",
+    tags: [TAGS.UNITY, TAGS.FINISH] ,
+  },
+  {
+    title: "Triggerito",
+    description:
+      "Triggerito es un proyecto creado como acortador de url y un relay entre Github y Discord para la comunicacion entre webhook, desarrollado principalmente con Go",
+    github: "https://github.com/maikreyes/url-shortening-service/tree/",
+    image: "/projects/Triggerito.webp",
+    tags: [TAGS.GOLANG ,TAGS.DEVELOP] ,
   },
 
 ]
 ---
-
-<div class="flex flex-col gap-y-16">
+<div id="project-filters" class="flex flex-wrap gap-x-4 gap-y-2 mb-8">
+  <button
+    type="button"
+    data-filter-tag={ALL_FILTER}
+    aria-pressed="true"
+    class="flex items-center gap-x-2 rounded-full text-m bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-100 py-2 px-4"
+  >
+    Todos
+  </button>
   {
-    PROJECTS.map(({ image, title, description, tags, link, github }) => (
-    <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
+    TAG_ENTRIES.map(([key, { name, class: tagClass, icon: Icon }]) => (
+      <button
+        type="button"
+        data-filter-tag={key}
+        aria-pressed="false"
+        class={`flex items-center gap-x-2 rounded-full text-xs ${tagClass} py-1 px-2`}
+      >
+        <Icon class="size-4" />
+        {name}
+      </button>
+    ))
+  }
+</div>
+
+<div id="projects-list" class="flex flex-col gap-y-16">
+  {
+    PROJECTS.map(({ image, title, description, tags, link, github }) => {
+      const projectTagKeys = tags
+        .map((tag) => tagKeyByObject.get(tag))
+        .filter(Boolean)
+
+      return (
+    <article
+      data-project
+      data-project-tags={projectTagKeys.join(",")}
+      class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0"
+    >
   <div class="w-full md:w-1/2">
     <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
       <img alt="Recién llegado vs 5 años en Nueva Zelanda" class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105" loading="lazy" src={image} />
@@ -121,9 +160,62 @@ const PROJECTS = [
     </div>
   </div>
 </article>
-    ))
+      )
+    })
   }
 </div>
+
+<script is:inline>
+  ;(() => {
+    const ALL = "ALL"
+    const filterContainer = document.getElementById("project-filters")
+    const projectsList = document.getElementById("projects-list")
+
+    if (!filterContainer || !projectsList) return
+
+    const buttons = Array.from(
+      filterContainer.querySelectorAll("button[data-filter-tag]")
+    )
+    const projects = Array.from(
+      projectsList.querySelectorAll("[data-project][data-project-tags]")
+    )
+
+    let activeTag = ALL
+
+    const setPressed = (tag) => {
+      buttons.forEach((button) => {
+        button.setAttribute(
+          "aria-pressed",
+          button.dataset.filterTag === tag ? "true" : "false"
+        )
+      })
+    }
+
+    const applyFilter = (tag) => {
+      projects.forEach((project) => {
+        const tags = (project.dataset.projectTags || "")
+          .split(",")
+          .filter(Boolean)
+
+        const shouldHide = tag !== ALL && !tags.includes(tag)
+        project.style.display = shouldHide ? "none" : ""
+      })
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const clickedTag = button.dataset.filterTag || ALL
+
+        activeTag = clickedTag === activeTag ? ALL : clickedTag
+        setPressed(activeTag)
+        applyFilter(activeTag)
+      })
+    })
+
+    setPressed(activeTag)
+    applyFilter(activeTag)
+  })()
+</script>
 
 
 
