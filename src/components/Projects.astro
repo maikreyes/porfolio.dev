@@ -1,11 +1,9 @@
 ---
 import GitHub from "./icons/GitHub.astro"
-import NextJS from "./icons/NextJS.astro"
-import Tailwind from "./icons/Tailwind.astro"
 import Link from "./icons/Link.astro"
 import LinkButton from "./LinkButton.astro"
 import Unity from "./icons/Unity.astro"
-import GodotEngine from "./icons/GodotEngine.astro"
+import Vue from "./icons/Vue.astro"
 import Build from "./icons/build_icon.astro"
 import Cancel from "./icons/cancel_icon.astro"
 import Finish from "./icons/finishicon.astro"
@@ -21,6 +19,11 @@ export const TAGS = {
     name: "GO",
     class : "bg-white text-blue-500",
     icon : GO
+  },
+  VUE:{
+    name: "Vue.js",
+    class: "bg-white text-green-600",
+    icon: Vue,
   },
   DEVELOP:{
     name : "Desarrollo",
@@ -73,9 +76,17 @@ const PROJECTS = [
     title: "Triggerito",
     description:
       "Triggerito es un proyecto creado como acortador de url y un relay entre Github y Discord para la comunicacion entre webhook, desarrollado principalmente con Go",
-    github: "https://github.com/maikreyes/url-shortening-service/tree/",
+    github: "https://github.com/maikreyes/url-shortening-service/",
     image: "/projects/Triggerito.webp",
     tags: [TAGS.GOLANG ,TAGS.DEVELOP] ,
+  },
+  {
+    title: "Stocks Dashboard",
+    description:
+      "Dashboard de acciones desarrollado con Go y Vuejs, es un proyecto personal para aprender a desarrollar con Go y Vuejs",
+    github: "https://github.com/maikreyes/go-vue-journey",
+    image: "/projects/StocksDashboard.webp",
+    tags: [TAGS.GOLANG, TAGS.VUE, TAGS.FINISH] ,
   },
 
 ]
